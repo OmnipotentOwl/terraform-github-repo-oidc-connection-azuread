@@ -27,6 +27,7 @@ locals {
       }
     ]
   ]))
+  well_known_application_permissions = var.well_known_application_permissions == null ? [] : var.well_known_application_permissions
 }
 
 
