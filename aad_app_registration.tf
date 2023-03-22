@@ -1,7 +1,7 @@
 data "azuread_application_published_app_ids" "well_known" {}
 
 data "azuread_service_principal" "well_known" {
-  for_each = { for app in var.well_known_application_permissions : app.name => app.name }
+  for_each = { for app in local.well_known_application_permissions : app.name => app.name }
 
   application_id = data.azuread_application_published_app_ids.well_known.result[each.key]
 }
@@ -12,7 +12,7 @@ resource "azuread_application" "github_oidc_app" {
 
 
   dynamic "required_resource_access" {
-    for_each = var.well_known_application_permissions
+    for_each = local.well_known_application_permissions
     content {
       resource_app_id = data.azuread_application_published_app_ids.well_known.result[required_resource_access.value.name]
       dynamic "resource_access" {
